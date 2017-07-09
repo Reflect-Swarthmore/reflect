@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Chrome Reflect/Journey",
+  "version": "1.0",
+  "description": "Gets information from Google.",
+  "permissions": ["identity", "activeTab", "http://*.google.com/", "https://*.google.com/"
+  ],
+  "chrome_url_overrides" : {
+  	"newtab": "index.html"
+   },
+   "icons": {
+   	"128": "images/icon_reflect.png"
+   },
+
+   "browser_action": {
+   	"default_title": "Chrome Reflect"
+   },
+   "content_security_policy":"script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'",
+   "oauth2": {
+   	"client_id": "757172924844-1jt5m7ang252c9bog0pjhsal7hg5cl40.apps.googleusercontent.com",
+   	"scopes": [
+   		"https://www.googleapis.com/auth/userinfo.email",
+   		"https://www.googleapis.com/auth/userinfo.profile"
+   	]
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqrrGpyewrIf1KP1arcDe4Im/kEKXEB/6N/Pj5Jb3sICG6QjbxUdXBlk1J0z0F7wdpkRVM8vTQmZzSkvM40fdWY9fvwlXkVQb5MT24pA5zbXkG5izFWZtSmRtQngr5Xx1/liku3GpTd/Lm2RSSock+e8N+9NgJzfBDkgweXb11vyr9VHImM/UC8j/FWuEojEA+wCakJf5k+VLtIxycUKpwDgvNGvR8AV+8cDoKgD4aYnwiqtyLRsR4x/J8ij7UIsQRq8OYO9EuDwzuaM4a1qhzDTYKZEwmN9L2NNxbJ38nZ98yC8TmsBNOW90r/e6iJj8L4Lm7dPnqc0PGi4bxpB9MwIDAQAB"
+}
