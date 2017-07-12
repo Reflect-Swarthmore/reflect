@@ -1,0 +1,19 @@
+{
+  "name": "reflect",
+  "version": "1.0.0",
+  "description": "A chrome-extension journal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Reflect-Swarthmore/reflect.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Reflect-Swarthmore/reflect/issues"
+  },
+  "homepage": "https://github.com/Reflect-Swarthmore/reflect#readme"
+}
