@@ -18,8 +18,10 @@
   },
   "homepage": "https://github.com/Reflect-Swarthmore/reflect#readme",
   "dependencies": {
+    "draft-js": "^0.10.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "semantic-ui-react": "^0.71.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
