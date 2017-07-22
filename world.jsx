@@ -13,15 +13,34 @@ class MyEditor extends React.Component {
     return (
       <div>
         <button onClick={this.makeBold}>Bold</button>
-        <Editor
-          placeHolder= "Tell us your life story..."
-          editorState={this.state.editorState}
-          onChange={this.onChange}
-        />
+        <div style={styles.editor} onClick={this.focus}>
+          <Editor
+            placeholder= "Tell us your life story..."
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+          />
+        </div>
       </div>
     );
   }
 }
+const styles = {
+  root: {
+    fontFamily: '\'Helvetica\', sans-serif',
+    padding: 20,
+    width: 600,
+  },
+  editor: {
+    border: '1px solid #ccc',
+    cursor: 'text',
+    minHeight: 80,
+    padding: 10,
+  },
+  button: {
+    marginTop: 10,
+    textAlign: 'center',
+  },
+};
 
 ReactDOM.render(
   <MyEditor />,

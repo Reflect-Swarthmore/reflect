@@ -32968,17 +32968,39 @@ var MyEditor = function (_React$Component) {
           { onClick: this.makeBold },
           'Bold'
         ),
-        _react2.default.createElement(_draftJs.Editor, {
-          placeHolder: 'Tell us your life story...',
-          editorState: this.state.editorState,
-          onChange: this.onChange
-        })
+        _react2.default.createElement(
+          'div',
+          { style: styles.editor, onClick: this.focus },
+          _react2.default.createElement(_draftJs.Editor, {
+            placeholder: 'Tell us your life story...',
+            editorState: this.state.editorState,
+            onChange: this.onChange
+          })
+        )
       );
     }
   }]);
 
   return MyEditor;
 }(_react2.default.Component);
+
+var styles = {
+  root: {
+    fontFamily: '\'Helvetica\', sans-serif',
+    padding: 20,
+    width: 600
+  },
+  editor: {
+    border: '1px solid #ccc',
+    cursor: 'text',
+    minHeight: 80,
+    padding: 10
+  },
+  button: {
+    marginTop: 10,
+    textAlign: 'center'
+  }
+};
 
 _reactDom2.default.render(_react2.default.createElement(MyEditor, null), document.getElementById('text-editor'));
 
