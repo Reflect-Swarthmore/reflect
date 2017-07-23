@@ -15,7 +15,12 @@ h1{
 	color: #0056b3;
   font-weight: normal;
 }
-
+.ui.segment{
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: none;
+}
 .RichEditor-root {
   background: #fff;
   border: 1px solid #ddd;

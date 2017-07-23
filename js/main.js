@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import BodyTextEditor from './textEditor.jsx';
+import Sidebar from './sidebarMenu.jsx';
+
 import { Grid } from 'semantic-ui-react'
 
 class Layout extends React.Component {
@@ -15,6 +17,7 @@ class Layout extends React.Component {
         <div style={styles.root}>
           <Grid columns='equal' style={styles.grid}>
               <Grid.Column>
+                <Sidebar />
               </Grid.Column>
               <Grid.Column width={9} style={styles.middle}>
                 <h1> reflect </h1>
