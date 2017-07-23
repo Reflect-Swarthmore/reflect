@@ -13,17 +13,15 @@ class Layout extends React.Component {
   render(){
       return (
         <div style={styles.root}>
-          <Grid columns='equal' stretched style={styles.grid}>
-            <Grid.Row stretched>
+          <Grid columns='equal' style={styles.grid}>
               <Grid.Column>
               </Grid.Column>
               <Grid.Column width={9} style={styles.middle}>
-                <h1> Reflect </h1>
+                <h1> reflect </h1>
                 <BodyTextEditor />
               </Grid.Column>
               <Grid.Column>
               </Grid.Column>
-            </Grid.Row>
           </Grid>
         </div>
       )

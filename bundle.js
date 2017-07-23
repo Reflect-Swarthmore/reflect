@@ -37919,23 +37919,19 @@ var Layout = function (_React$Component) {
         { style: styles.root },
         _react2.default.createElement(
           _semanticUiReact.Grid,
-          { columns: 'equal', stretched: true, style: styles.grid },
+          { columns: 'equal', style: styles.grid },
+          _react2.default.createElement(_semanticUiReact.Grid.Column, null),
           _react2.default.createElement(
-            _semanticUiReact.Grid.Row,
-            { stretched: true },
-            _react2.default.createElement(_semanticUiReact.Grid.Column, null),
+            _semanticUiReact.Grid.Column,
+            { width: 9, style: styles.middle },
             _react2.default.createElement(
-              _semanticUiReact.Grid.Column,
-              { width: 9, style: styles.middle },
-              _react2.default.createElement(
-                'h1',
-                null,
-                ' Reflect '
-              ),
-              _react2.default.createElement(_textEditor2.default, null)
+              'h1',
+              null,
+              ' reflect '
             ),
-            _react2.default.createElement(_semanticUiReact.Grid.Column, null)
-          )
+            _react2.default.createElement(_textEditor2.default, null)
+          ),
+          _react2.default.createElement(_semanticUiReact.Grid.Column, null)
         )
       );
     }
@@ -50280,37 +50276,98 @@ var BodyTextEditor = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (BodyTextEditor.__proto__ || Object.getPrototypeOf(BodyTextEditor)).call(this, props));
 
-    _this.state = {
-      //this editor state is from draft-js and updates the DOM whenever this changes
-      editorState: _draftJs.EditorState.createEmpty()
+    _this.state = { editorState: _draftJs.EditorState.createEmpty() };
+
+    _this.focus = function () {
+      return _this.refs.editor.focus();
     };
     _this.onChange = function (editorState) {
       return _this.setState({ editorState: editorState });
     };
-    _this.makeBold = function () {
-      return _this.onChange(_draftJs.RichUtils.toggleInlineStyle(_this.state.editorState, 'BOLD'));
+
+    _this.handleKeyCommand = function (command) {
+      return _this._handleKeyCommand(command);
+    };
+    _this.onTab = function (e) {
+      return _this._onTab(e);
+    };
+    _this.toggleBlockType = function (type) {
+      return _this._toggleBlockType(type);
+    };
+    _this.toggleInlineStyle = function (style) {
+      return _this._toggleInlineStyle(style);
     };
     return _this;
   }
 
   _createClass(BodyTextEditor, [{
+    key: '_handleKeyCommand',
+    value: function _handleKeyCommand(command) {
+      var editorState = this.state.editorState;
+
+      var newState = _draftJs.RichUtils.handleKeyCommand(editorState, command);
+      if (newState) {
+        this.onChange(newState);
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: '_onTab',
+    value: function _onTab(e) {
+      var maxDepth = 4;
+      this.onChange(_draftJs.RichUtils.onTab(e, this.state.editorState, maxDepth));
+    }
+  }, {
+    key: '_toggleBlockType',
+    value: function _toggleBlockType(blockType) {
+      this.onChange(_draftJs.RichUtils.toggleBlockType(this.state.editorState, blockType));
+    }
+  }, {
+    key: '_toggleInlineStyle',
+    value: function _toggleInlineStyle(inlineStyle) {
+      this.onChange(_draftJs.RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var editorState = this.state.editorState;
+
+      // If the user changes block type before entering any text, we can
+      // either style the placeholder or hide it. Let's just hide it now.
+
+      var className = 'RichEditor-editor';
+      var contentState = editorState.getCurrentContent();
+      if (!contentState.hasText()) {
+        if (contentState.getBlockMap().first().getType() !== 'unstyled') {
+          className += ' RichEditor-hidePlaceholder';
+        }
+      }
+
       return _react2.default.createElement(
         'div',
-        null,
-        _react2.default.createElement(
-          'button',
-          { onClick: this.makeBold },
-          'Bold'
-        ),
+        { className: 'RichEditor-root' },
+        _react2.default.createElement(BlockStyleControls, {
+          editorState: editorState,
+          onToggle: this.toggleBlockType
+        }),
+        _react2.default.createElement(InlineStyleControls, {
+          editorState: editorState,
+          onToggle: this.toggleInlineStyle
+        }),
         _react2.default.createElement(
           'div',
-          { style: styles.editor, onClick: this.focus },
+          { className: className, onClick: this.focus },
           _react2.default.createElement(_draftJs.Editor, {
-            placeholder: 'Tell us your life story...',
-            editorState: this.state.editorState,
-            onChange: this.onChange
+            blockStyleFn: getBlockStyle,
+            customStyleMap: styleMap,
+            editorState: editorState,
+            handleKeyCommand: this.handleKeyCommand,
+            onChange: this.onChange,
+            onTab: this.onTab,
+            placeholder: 'Tell a story...',
+            ref: 'editor',
+            spellCheck: true
           })
         )
       );
@@ -50320,25 +50377,102 @@ var BodyTextEditor = function (_React$Component) {
   return BodyTextEditor;
 }(_react2.default.Component);
 
-exports.default = BodyTextEditor;
+// Custom overrides for "code" style.
 
-var styles = {
-  root: {
-    fontFamily: '\'Helvetica\', sans-serif',
-    padding: 20,
-    width: 600
-  },
-  editor: {
-    border: '1px solid #000',
-    cursor: 'text',
-    minHeight: 80,
-    padding: 10,
-    color: '#000000'
-  },
-  button: {
-    marginTop: 10,
-    textAlign: 'center'
+
+exports.default = BodyTextEditor;
+var styleMap = {
+  CODE: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    fontSize: 16,
+    padding: 2
   }
+};
+
+function getBlockStyle(block) {
+  switch (block.getType()) {
+    case 'blockquote':
+      return 'RichEditor-blockquote';
+    default:
+      return null;
+  }
+}
+
+var StyleButton = function (_React$Component2) {
+  _inherits(StyleButton, _React$Component2);
+
+  function StyleButton() {
+    _classCallCheck(this, StyleButton);
+
+    var _this2 = _possibleConstructorReturn(this, (StyleButton.__proto__ || Object.getPrototypeOf(StyleButton)).call(this));
+
+    _this2.onToggle = function (e) {
+      e.preventDefault();
+      _this2.props.onToggle(_this2.props.style);
+    };
+    return _this2;
+  }
+
+  _createClass(StyleButton, [{
+    key: 'render',
+    value: function render() {
+      var className = 'RichEditor-styleButton';
+      if (this.props.active) {
+        className += ' RichEditor-activeButton';
+      }
+
+      return _react2.default.createElement(
+        'span',
+        { className: className, onMouseDown: this.onToggle },
+        this.props.label
+      );
+    }
+  }]);
+
+  return StyleButton;
+}(_react2.default.Component);
+
+var BLOCK_TYPES = [{ label: 'H1', style: 'header-one' }, { label: 'H2', style: 'header-two' }, { label: 'H3', style: 'header-three' }, { label: 'H4', style: 'header-four' }, { label: 'H5', style: 'header-five' }, { label: 'H6', style: 'header-six' }, { label: 'Blockquote', style: 'blockquote' }, { label: 'UL', style: 'unordered-list-item' }, { label: 'OL', style: 'ordered-list-item' }, { label: 'Code Block', style: 'code-block' }];
+
+var BlockStyleControls = function BlockStyleControls(props) {
+  var editorState = props.editorState;
+
+  var selection = editorState.getSelection();
+  var blockType = editorState.getCurrentContent().getBlockForKey(selection.getStartKey()).getType();
+
+  return _react2.default.createElement(
+    'div',
+    { className: 'RichEditor-controls' },
+    BLOCK_TYPES.map(function (type) {
+      return _react2.default.createElement(StyleButton, {
+        key: type.label,
+        active: type.style === blockType,
+        label: type.label,
+        onToggle: props.onToggle,
+        style: type.style
+      });
+    })
+  );
+};
+
+var INLINE_STYLES = [{ label: 'Bold', style: 'BOLD' }, { label: 'Italic', style: 'ITALIC' }, { label: 'Underline', style: 'UNDERLINE' }, { label: 'Monospace', style: 'CODE' }];
+
+var InlineStyleControls = function InlineStyleControls(props) {
+  var currentStyle = props.editorState.getCurrentInlineStyle();
+  return _react2.default.createElement(
+    'div',
+    { className: 'RichEditor-controls' },
+    INLINE_STYLES.map(function (type) {
+      return _react2.default.createElement(StyleButton, {
+        key: type.label,
+        active: currentStyle.has(type.style),
+        label: type.label,
+        onToggle: props.onToggle,
+        style: type.style
+      });
+    })
+  );
 };
 
 /***/ }),
