@@ -1,11 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Editor, EditorState, RichUtils} from 'draft-js';
 
-class MyEditor extends React.Component {
+export default class BodyTextEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
+    this.state = {
+      //this editor state is from draft-js and updates the DOM whenever this changes
+      editorState: EditorState.createEmpty()
+    };
     this.onChange = (editorState) => this.setState({editorState});
     this.makeBold = () => this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
@@ -31,18 +33,14 @@ const styles = {
     width: 600,
   },
   editor: {
-    border: '1px solid #ccc',
+    border: '1px solid #000',
     cursor: 'text',
     minHeight: 80,
     padding: 10,
+    color: '#000000'
   },
   button: {
     marginTop: 10,
     textAlign: 'center',
   },
 };
-
-ReactDOM.render(
-  <MyEditor />,
-  document.getElementById('root')
-);
