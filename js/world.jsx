@@ -44,5 +44,5 @@ const styles = {
 
 ReactDOM.render(
   <MyEditor />,
-  document.getElementById('text-editor')
+  document.getElementById('root')
 );

@@ -1,2 +1,2 @@
-import Hello from './hello.jsx';
-import NWorld from './world.jsx';
+import Hello from './js/hello.jsx';
+import NWorld from './js/world.jsx';
