@@ -35,6 +35,5 @@ export default class SidebarLeftOverlay extends React.Component {
 const styles = {
   _height: {height: '100%'},
   invisible: {
-    background
   }
 }
