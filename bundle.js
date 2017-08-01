@@ -58988,7 +58988,7 @@ var SidebarLeftOverlay = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { style: styles },
+        { style: styles._height },
         _react2.default.createElement(
           _semanticUiReact.Button,
           { onClick: this.toggleVisibility },
@@ -59029,7 +59029,10 @@ var SidebarLeftOverlay = function (_React$Component) {
 
 exports.default = SidebarLeftOverlay;
 
-var styles = { height: '100%' };
+var styles = {
+  _height: { height: '100%' },
+  invisible: {}
+};
 
 /***/ }),
 /* 671 */

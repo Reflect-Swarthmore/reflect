@@ -20,6 +20,7 @@
   "dependencies": {
     "babel-polyfill": "^6.23.0",
     "draft-js": "^0.10.1",
+    "firebase": "^4.2.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "semantic-ui-css": "^2.2.11",
