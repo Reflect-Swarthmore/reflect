@@ -1,0 +1,23 @@
+
+.login-form{
+  background: url(../images/background_main.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+}
+#title{
+  color: white;
+}
+
+#reflect{
+	text-align: center;
+  color: white;
+  margin-top: 25px;
+  margin-bottom: 25px;
+	font-size: 100px;
+	font-family: "Century Gothic", sans-serif;
+  /*font-family: "Quicksand", sans-serif;*/
+	/*color: #0056b3;*/
+}

@@ -2,7 +2,7 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './js/main.js',
+  entry: './src/index.js',
   output: { path: __dirname, filename: 'bundle.js' },
   module: {
     loaders: [
@@ -11,7 +11,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react'],
+          plugins: ['transform-decorators-legacy']
         }
       }
     ]

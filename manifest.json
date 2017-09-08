@@ -6,7 +6,7 @@
   "permissions": ["identity", "activeTab", "http://*.google.com/", "https://*.google.com/"
   ],
   "chrome_url_overrides" : {
-  	"newtab": "index.html"
+  	"newtab": "public/index.html"
    },
    "icons": {
    	"128": "images/icon_reflect.png"
