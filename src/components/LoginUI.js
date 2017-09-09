@@ -5,10 +5,11 @@ import './loginUI.css';
 import { connect } from 'react-redux';
 import { Icon, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import FormInput from '../containers/Input';
-import { setUserEmail, setUserPassword, logInWithEmailAndPassword } from '../actions/index';
+import { createNewUser, setUserEmail, setUserPassword, logInWithEmailAndPassword } from '../actions/index';
 
 const mapStateToProps = (state) => ({
-    authorizing: state.user.authorizing
+    authorizing: state.user.authorizing,
+    subscribing: state.user.subscribing
 });
 
 class LoginUI extends Component {
@@ -19,10 +20,21 @@ class LoginUI extends Component {
       const { email_login, password_login } = this.state
       this.props.dispatch(
         logInWithEmailAndPassword(email_login, password_login)
+
+      )
+    }
+    handleNewUser = e => {
+      this.props.dispatch(
+        createNewUser()
       )
     }
     render() {
         const { email, password, email_login, password_login } = this.state;
+        const {subscribing} = this.props;
+        let msg = "some message";
+        if (!subscribing) msg = "";
+        else msg = "START SUBSCRIBING";
+
         return (
           <div className='login-form'>
             {/*
@@ -71,11 +83,11 @@ class LoginUI extends Component {
                       onChange={this.handleChangeLogin}
                     />
                     <Form.Button color='blue' fluid size='large' content='SIGN IN'></Form.Button>
-                    <Message>
-                    New to us? <a href='#'>Sign Up</a>
-                    </Message>
                   </Segment>
                 </Form>
+                <Message>
+                New to us?  {msg}<Button primary onClick={this.handleNewUser}> Sign Up </Button>
+                </Message>
               </Grid.Column>
             </Grid>
 

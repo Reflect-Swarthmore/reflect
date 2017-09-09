@@ -95,10 +95,17 @@ export const loadUserJournalList = () => {
             });
   }
 }
+export const createNewUser = () => {
+  return function (dispatch){
+    dispatch(startSubscribing());
+  }
+};
 //
 // User actions
 //
-
+export const startSubscribing = () => ({
+  type: 'USER_START_SUBSCRIBING'
+});
 export const setUserName = (name) => ({
     type: 'SET_USER_NAME',
     name

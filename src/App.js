@@ -32,7 +32,6 @@ const LoginOrChat = connect(
     if (authorized) {
         return (<JournalUI />);
     }else{
-
         return (<LoginUI />);
     }
 });
