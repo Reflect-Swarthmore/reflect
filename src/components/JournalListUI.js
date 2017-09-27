@@ -28,12 +28,11 @@ class JournalListUI extends Component{
 
     let list = null;
     if(!journals.length){ list = <div>no journals... sad </div> }
-    else list = journals.map((j) => <List.Item>{j.name}</List.Item> );
+    else list = journals.map((j) => <List.Item inverted>{j.name}</List.Item> );
 
     return (
-      <div className='journalsroot'>
-      <style>{'.journalsroot{width:50%; background-color: white; }'}</style>
-        <List selection verticalAlign='middle'>
+      <div className='journalsroot' style={{backgroundColor: 'black'}}>
+        <List selection verticalAlign='middle' inverted>
           {list}
         </List>
         <Form onSubmit={this.handleNewJournal}>

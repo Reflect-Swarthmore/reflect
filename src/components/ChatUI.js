@@ -27,7 +27,7 @@ class ChatUI extends Component{
         }
       `}</style>
         <Grid columns='three' divided>
-          <Grid.Column >
+          <Grid.Column color='black'>
             <h2> Journals </h2>
             <Divider />
             <JournalListUI />
