@@ -5,11 +5,12 @@ import './loginUI.css';
 import { connect } from 'react-redux';
 import { Icon, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import FormInput from '../containers/Input';
-import { createNewUser, setUserEmail, setUserPassword, logInWithEmailAndPassword } from '../actions/index';
+import { createNewUser, logInWithEmailAndPassword } from '../actions/index';
 
 const mapStateToProps = (state) => ({
     authorizing: state.user.authorizing,
-    subscribing: state.user.subscribing
+    subscribing: state.user.subscribing,
+    error: state.user.error,
 });
 
 class LoginUI extends Component {
@@ -30,11 +31,11 @@ class LoginUI extends Component {
     }
     render() {
         const { email, password, email_login, password_login } = this.state;
-        const {subscribing} = this.props;
-        let msg = "some message";
-        if (!subscribing) msg = "";
-        else msg = "START SUBSCRIBING";
-
+        const {subscribing, error} = this.props;
+        let errorMessage = "";
+        if(error){
+          errorMessage = <Message error header='Error' content={error}></Message>
+        }
         return (
           <div className='login-form'>
             {/*
@@ -63,7 +64,8 @@ class LoginUI extends Component {
                 <Header as='h2' textAlign='center' id="title">
                   {' '}Sign In
                 </Header>
-                <Form size='large' onSubmit={this.handleSubmitLogIn}>
+                <Form size='large' onSubmit={this.handleSubmitLogIn} error>
+                  {errorMessage}
                   <Segment stacked>
                     <Form.Input
                       icon='user'
@@ -86,7 +88,7 @@ class LoginUI extends Component {
                   </Segment>
                 </Form>
                 <Message>
-                New to us?  {msg}<Button primary onClick={this.handleNewUser}> Sign Up </Button>
+                New to us? <Button primary onClick={this.handleNewUser}> Sign Up </Button>
                 </Message>
               </Grid.Column>
             </Grid>

@@ -9,7 +9,6 @@
   	"newtab": "public/index.html"
    },
    "icons": {
-   	"128": "images/icon_reflect.png"
    },
 
    "browser_action": {

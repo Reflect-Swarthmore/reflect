@@ -7,6 +7,7 @@ import { createLogger } from 'redux-logger';
 
 import JournalUI from './components/ChatUI';
 import LoginUI from './components/LoginUI';
+import SignUp from './components/SignUp';
 import rootReducer from './reducers';
 import { fetchMessages, checkUserExists } from './actions';
 
@@ -26,13 +27,16 @@ store.subscribe(()=>{
 })
 const LoginOrChat = connect(
     (state) => ({
-        authorized: state.user.authorized
+        authorized: state.user.authorized,
+        subscribing: state.user.subscribing
     })
-)(({ authorized, dispatch }) => {
+)(({ authorized, subscribing, dispatch }) => {
     if (authorized) {
         return (<JournalUI />);
     }else{
-        return (<LoginUI />);
+        if(subscribing){
+          return <SignUp />
+        } else return (<LoginUI />);
     }
 });
 

@@ -8,6 +8,7 @@ const initialState = {
     authorizing: false,
     authorized: false,
     subscribing: false,
+    error: null
 };
 
 const user = (state = initialState, action) => {
@@ -49,6 +50,10 @@ const user = (state = initialState, action) => {
       case 'USER_START_SUBSCRIBING':
         return Object.assign({}, state, {
           subscribing: true
+        });
+      case 'USER_ERROR_MESSAGE':
+        return Object.assign({}, state, {
+          error: action.code
         });
         default:
             return state

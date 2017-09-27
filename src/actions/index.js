@@ -100,6 +100,20 @@ export const createNewUser = () => {
     dispatch(startSubscribing());
   }
 };
+export const subscribeNewUser = (name, lastname, email, password) => {
+  return function (dispatch, getState){
+    firebase.auth().createUserWithEmailAndPassword(email, password).then((user)=>{
+        dispatch(setUserEmail(user.email));
+        dispatch(setUserName(user.displayName));
+        dispatch(setUserUID(user.uid));
+        dispatch(loadUserJournalList());
+        dispatch(userAuthorized());
+    })
+    .catch(function(error) {
+      dispatch(userErrorMessage(error.message));
+    });
+  }
+};
 //
 // User actions
 //
@@ -130,33 +144,29 @@ export const setUserUID = (uid) => ({
     type: 'SET_USER_UID',
     uid
 });
-export const signUpWithEmailAndPassword = (email, password) => {
+export const signUpWithEmailAndPassword = (name, lastname, email, password) => {
   return function(dispatch, getState) {
-    console.log(email);
     firebase.auth().createUserWithEmailAndPassword(email, password).then((user)=>{
+        dispatch(setUserEmail(user.email));
+        dispatch(setUserName(user.displayName));
+        dispatch(setUserAvatar(user.photoURL));
+        dispatch(setUserUID(user.uid));
+        dispatch(loadUserJournalList());
+        dispatch(userAuthorized());
     })
     .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.');
-      } else {
-        alert(errorMessage);
-      }
-      console.log(error);
+      dispatch(userErrorMessage(error.message));
     });
   }
 }
 export const logInWithEmailAndPassword = (email, password) => {
   return function(dispatch, getState) {
     firebase.auth().signInWithEmailAndPassword(email, password).then(function(result) {
-      console.log(result);
-      if (result.credential) {
-        // This gives you a Google Access Token.
-        var token = result.credential.accessToken;
-      }
-      var user = result.user;
+      // if (result.credential) {
+      //   // This gives you a Google Access Token.
+      //   var token = result.credential.accessToken;
+      // }
+      // var user = result.user;
 
       dispatch(setUserEmail(result.email));
       dispatch(setUserName(result.displayName));
@@ -164,9 +174,15 @@ export const logInWithEmailAndPassword = (email, password) => {
       dispatch(setUserUID(result.uid));
       dispatch(loadUserJournalList());
       dispatch(userAuthorized());
+    }).catch(function(error){
+      dispatch(userErrorMessage(error.message));
     });
   }
 }
+export const userErrorMessage = (code) => ({
+    type: 'USER_ERROR_MESSAGE',
+    code
+});
 export const checkUserExists = () => {
     return function (dispatch) {
         dispatch(startAuthorizing());
