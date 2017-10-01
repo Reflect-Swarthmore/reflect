@@ -1,4 +1,3 @@
-
 import firebase from '../firebase';
 
 export const addMessage = (msg) => ({
@@ -69,7 +68,6 @@ export const updateMessagesHeight = (event) => {
         height: layout.height
     }
 }
-
 export const createNewJournal = (name) => {
   return function(dispatch, getState) {
     const { uid } = getState().user;
@@ -161,13 +159,10 @@ export const signUpWithEmailAndPassword = (name, lastname, email, password) => {
 }
 export const logInWithEmailAndPassword = (email, password) => {
   return function(dispatch, getState) {
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function(result) {
-      // if (result.credential) {
-      //   // This gives you a Google Access Token.
-      //   var token = result.credential.accessToken;
-      // }
-      // var user = result.user;
-
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+  .then(function() {
+    return firebase.auth().signInWithEmailAndPassword(email, password).then(function(result) {
+      //save token in local Storage
       dispatch(setUserEmail(result.email));
       dispatch(setUserName(result.displayName));
       dispatch(setUserAvatar(result.photoURL));
@@ -177,6 +172,9 @@ export const logInWithEmailAndPassword = (email, password) => {
     }).catch(function(error){
       dispatch(userErrorMessage(error.message));
     });
+
+  });
+
   }
 }
 export const userErrorMessage = (code) => ({
@@ -185,26 +183,26 @@ export const userErrorMessage = (code) => ({
 });
 export const checkUserExists = () => {
     return function (dispatch) {
-        dispatch(startAuthorizing());
+        console.log("made it here");
+        var user = firebase.auth().onAuthStateChanged(function(user){
 
-        firebase.auth()
-                .signInAnonymously()
-                .then(() => firebase.database()
-                                    .ref(`users/name`)
-                                    .once('value', (snapshot) => {
-                                        const val = snapshot.val();
-
-                                        if (val === null) {
-                                            dispatch(userNoExist());
-                                        }else{
-                                            dispatch(setUserName(val.name));
-                                            dispatch(setUserAvatar(val.avatar));
-                                            startChatting(dispatch);
-                                        }
-                                    }))
-                .catch(err => console.log(err))
+          console.log(user);
+          if(user){
+            // user signed in
+            dispatch(setUserEmail(user.email));
+            dispatch(setUserName(user.displayName));
+            dispatch(setUserAvatar(user.photoURL));
+            dispatch(setUserUID(user.uid));
+            dispatch(loadUserJournalList());
+            dispatch(userAuthorized());
+            console.log(user);
+          }
+          else{
+            // user not signed in
+          }
+        })
     }
-}
+};
 
 const startChatting = function (dispatch) {
     dispatch(userAuthorized());

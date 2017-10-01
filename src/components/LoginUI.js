@@ -5,8 +5,8 @@ import './loginUI.css';
 import { connect } from 'react-redux';
 import { Icon, Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
 import FormInput from '../containers/Input';
-import { createNewUser, logInWithEmailAndPassword } from '../actions/index';
-
+import { createNewUser, logInWithEmailAndPassword} from '../actions/index';
+import {login } from "../actions/authActions";
 const mapStateToProps = (state) => ({
     authorizing: state.user.authorizing,
     subscribing: state.user.subscribing,

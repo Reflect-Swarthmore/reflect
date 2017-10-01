@@ -21,16 +21,18 @@ const store = createStore(
         //loggerMiddleware
     )
 );
-
 store.subscribe(()=>{
-  console.log("store changed", store.getState())
-})
+  // console.log("store changed", store.getState())
+});
+
+
 const LoginOrChat = connect(
     (state) => ({
         authorized: state.user.authorized,
         subscribing: state.user.subscribing
     })
 )(({ authorized, subscribing, dispatch }) => {
+    dispatch(checkUserExists())
     if (authorized) {
         return (<JournalUI />);
     }else{
@@ -41,6 +43,10 @@ const LoginOrChat = connect(
 });
 
 class App extends Component {
+    constructor(props){
+      super(props)
+
+    }
     render() {
         return (
             <Provider store={store}>
