@@ -88,7 +88,7 @@ class LoginUI extends Component {
                   </Segment>
                 </Form>
                 <Message>
-                <div>Cant sign in? <a href='#'>Reset Password</a></div>
+                <div>Can't sign in? <a href='#'>Reset Password</a></div>
                 <br/>
                 New to us? <a href='#' onClick={this.handleNewUser}> Sign Up </a>
                 </Message>

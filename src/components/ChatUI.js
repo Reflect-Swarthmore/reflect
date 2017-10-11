@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import './ChatUI.css';
 import { connect } from 'react-redux';
-import {Grid, Divider, Header} from 'semantic-ui-react';
+import {Grid, Divider, Header, Dropdown, Image, Container, Sidebar, Segment, Menu} from 'semantic-ui-react';
 import RichEditorExample from './EntryUI'
-
 import JournalListUI from './JournalListUI';
+import MenuUI from './Menu'
 
 
 const mapStateToProps = (state) => ({
@@ -13,34 +13,48 @@ const mapStateToProps = (state) => ({
 });
 
 class ChatUI extends Component{
+  state = { visible: false }
+  toggleVisibility = () => this.setState({ visible: !this.state.visible })
 
   render() {
+    const {visible} = this.state
     return (
       <div className='background'>
-      <style>{`
-        body > div,
-        body > div > div,
-        body > div > div > div.login-form {
-          height: 100%;
-          padding: 0%;
-          margin: 0%;
-        }
-      `}</style>
-        <Grid columns='three' divided>
-          <Grid.Column color='black'>
-            <h2> Journals </h2>
-            <Divider />
-            <JournalListUI />
-          </Grid.Column>
-          <Grid.Column>
-            <Header as='h1' textAlign='center' id="reflect">
-            {' '}reflect
-            </Header>
-            <RichEditorExample />
-          </Grid.Column>
-          <Grid.Column>
-          </Grid.Column>
-        </Grid>
+      <Sidebar.Pushable>
+
+        <Sidebar as={Menu} animation='overlay' width='thin' visible={visible} icon='labeled' vertical inverted>
+          <h2> Journals </h2>
+          <Divider />
+          <JournalListUI />
+        </Sidebar>
+
+
+      <Sidebar.Pusher>
+        <MenuUI toggle={this.toggleVisibility} />
+        <Container style={{ marginTop: "7em"}} fluid>
+          <Grid columns='three' divided>
+            <Grid.Row>
+              <style>{`body > div,
+                body > div > div,
+                body > div > div > div.login-form {
+                  height: 100%;
+                  padding: 0%;
+                  margin: 0%;
+                  overflow: hidden;
+                }`}</style>
+                <Grid.Column>
+                </Grid.Column>
+                <Grid.Column>
+                  <RichEditorExample />
+                </Grid.Column>
+                <Grid.Column>
+                </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Container>
+
+      </Sidebar.Pusher>
+      </Sidebar.Pushable>
       </div>
     )}
 }

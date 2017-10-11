@@ -55,6 +55,10 @@ const user = (state = initialState, action) => {
         return Object.assign({}, state, {
           error: action.code
         });
+      case 'USER_SIGN_OUT':
+        return Object.assign({}, state, {
+          authorized: false
+        });
         default:
             return state
     }
