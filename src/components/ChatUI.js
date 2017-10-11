@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import './ChatUI.css';
 import { connect } from 'react-redux';
-import {Grid, Divider, Header, Dropdown, Image, Container, Sidebar, Segment, Menu} from 'semantic-ui-react';
+import {Button, Grid, Divider, Header, Dropdown, Image, Container, Sidebar, Segment, Menu, Icon} from 'semantic-ui-react';
 import RichEditorExample from './EntryUI'
 import JournalListUI from './JournalListUI';
 import MenuUI from './Menu'
@@ -23,6 +23,9 @@ class ChatUI extends Component{
       <Sidebar.Pushable>
 
         <Sidebar as={Menu} animation='overlay' width='thin' visible={visible} icon='labeled' vertical inverted>
+          <Button>
+            <Icon name="close" onClick={this.toggleVisibility} style={{paddingLeft: '5px',paddingRight: '5px'}}></Icon>
+          </Button>
           <h2> Journals </h2>
           <Divider />
           <JournalListUI />
